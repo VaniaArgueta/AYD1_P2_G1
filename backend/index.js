@@ -100,7 +100,7 @@ app.post("/registro", function (req, res) {
 
     conn.query(
         "insert into usuario(usuario, nombre, apellido, email, password, rol) VALUES (?,?,?,?,?,?);",
-        [usuario, nombre, apellido, email, password, 1], // ROl: 0 -> administrador, 1 -> usuario
+        [usuario, nombre, apellido, email, password, 1], // ROl: 0 -> administrador, 1 -> usuario normal
         function (err, results, fields) {
             if (err) {
                 console.log(err);

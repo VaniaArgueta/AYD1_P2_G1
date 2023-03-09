@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* PRUEBAS */
+* {
+	margin: 0;
+	padding: 0;
+	/*font-family: Poppins;*/
+	box-sizing: border-box;
+}
+
+body {
+	/*max-width: 1200px;*/
+	margin: 0 auto;
+	
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	padding: 15px;
+	background-color: #06263b;
+	color: #fff;
+}
+
+h2 a {
+	text-decoration: none;
+	color: #fff;
+}
+
+nav,
+.user {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+nav a {
+	text-decoration: none;
+	color: #fff;
+}
+
+.username {
+	color: #fff;
+}
+
+.btn-logout {
+	border: 1px solid #fff;
+	background: none;
+	color: #fff;
+	padding: 5px 20px;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.btn-logout:hover {
+	background-color: #fff;
+	color: #000;
+}
+
+/*  */
+
+.wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 500px;
+}
+
+form {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.input-group {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin: 10px 0;
+	text-align: center;
+}
