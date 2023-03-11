@@ -81,3 +81,9 @@ CREATE TABLE puntuacion (
     REFERENCES pelicula (`idPelicula`),
   UNIQUE (idUsuario,idPelicula)
 );
+
+
+
+-- Se cambia el tamaño del campo password para que quepa el texto encriptado
+alter table usuario 
+modify column password varchar(200) not null;
