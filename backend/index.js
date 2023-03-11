@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cors from "cors";
 import AWS from 'aws-sdk';
 import { aws_keys } from './helpers/aws_keys.js';
+import md5 from 'md5';
 
 const app = express();
 var corsOptions = { origin: true, optionsSuccessStatus: 200 };
@@ -52,6 +53,8 @@ app.get("/login/(:usuario)/(:password)", function (req, res) {
               return res.send({ resultadoLogin: 0 });
             }
             else if(results.length === 1){
+              password = md5(password);
+              console.log('password ingresada (después de encriptación):'+password)
               if(results[0].password == password) {
                 console.log('login exitoso');
                 return res.send({ resultadoLogin: 1 });
@@ -100,7 +103,7 @@ app.post("/registro", function (req, res) {
     let nombre = req.body.nombre;
     let apellido = req.body.apellido;
     let email = req.body.email;    
-    let password = req.body.password;
+    let password = md5(req.body.password);
     //let rol = req.body.rol;
 
     conn.query(
