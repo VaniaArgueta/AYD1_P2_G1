@@ -3,14 +3,7 @@ import conn from "./conexion.js";
 import bodyParser from 'body-parser';
 import cors from "cors";
 import AWS from 'aws-sdk';
-
-let aws_keys = {
-  s3: {
-    region: 'us-east-1',
-    accessKeyId: 'AKIARMUTWUN2XVE5MRIR',
-    secretAccessKey: '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',
-  },
-}
+import { aws_keys } from './helpers/aws_keys.js';
 
 const app = express();
 var corsOptions = { origin: true, optionsSuccessStatus: 200 };
