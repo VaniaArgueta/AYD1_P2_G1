@@ -81,3 +81,6 @@ CREATE TABLE puntuacion (
     REFERENCES pelicula (`idPelicula`),
   UNIQUE (idUsuario,idPelicula)
 );
+
+-- 
+alter table usuario  modify column password varchar(200) not null;
