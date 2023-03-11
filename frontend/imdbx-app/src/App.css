@@ -1,0 +1,105 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 10vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 10s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.banner {
+  display: inline-flex;
+  position: relative;
+}
+
+.titulo{
+  position: absolute;
+  top:45%;
+  left: 80%;
+  color:#ffffff;
+}
+
+.contenedorFormulario {
+  justify-content: center;
+  width:500px;
+  margin: 0 auto;
+  
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 35% auto;
+  grid-template-rows: 500px;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "uno dos";
+    height: 100%;
+    width: 95%;
+}
+
+.uno {
+  grid-area: uno;
+  background: #06263b;
+  border: 3px solid #ffcc80;
+  border-radius: 5px;
+  padding: 8px;
+  text-align: center;
+  min-height: 1000px;
+}
+
+.dos {
+  grid-area: dos;
+  background: #06263b;
+  border: 3px solid #ffcc80;
+  border-radius: 5px;
+  padding: 30px;
+  min-height: 1000px;
+}
+
+.datosPrincipales{
+  font-size: large;
+  color:rgb(255, 255, 255);
+  font-weight: bolder;
+}
+
+.subTitulo {color: white;}
+
+.transparente {
+  background-color: transparent;
+}
+
+.centrado {
+  align-items: center;
+  text-align: center;
+}
