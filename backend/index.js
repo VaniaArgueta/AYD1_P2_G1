@@ -122,10 +122,10 @@ console.log("Server running on port 4000");
 /****-------------Info peliculas------------------------- */
 
 
-app.post("/infopeliculas",function(req,res){
+app.get("/infopeliculas",function(req,res){
   let idpelicula = req.body.idpelicula;
  
-  conn.query("SELECT   P.NOMBRE, P.DIRECTOR, P.AÑO,P.RESUMEN,P.ILUSTRACION  FROM PELICULA P  INNER JOIN PELICULA_ACTOR PA ON PA.IDPELICULA = P.IDPELICULA  INNER JOIN ACTOR A ON A.IDACTOR = PA.IDACTOR  INNER JOIN COMENTARIO C ON C.IDCOMENTARIO = P.IDCOMENTARIO  INNER JOIN PUNTUACION PUN ON PUN.IDPELICULA = P.IDPELICULA  WHERE P.IDPELICULA = ? OR P.NOMBRE LIKE ?  OR P.AÑO = ? ",
+  conn.query("SELECT   P.NOMBRE, P.DIRECTOR, P.AÑO,P.RESUMEN,P.ILUSTRACION  FROM PELICULA P  INNER JOIN PELICULA_ACTOR PA ON PA.IDPELICULA = P.IDPELICULA  INNER JOIN ACTOR A ON A.IDACTOR = PA.IDACTOR  INNER JOIN COMENTARIO C ON C.IDCOMENTARIO = P.IDCOMENTARIO  INNER JOIN PUNTUACION PUN ON PUN.IDPELICULA = P.IDPELICULA  WHERE P.IDPELICULA = COALESCE(P.IDPELICULA,?) ",
   [idpelicula],
   function(err,results,fields){
     if(err) throw err;
@@ -135,7 +135,7 @@ app.post("/infopeliculas",function(req,res){
   });
 });
 
-app.post("/repartoPelicula",function(req,res){
+app.get("/repartopelicula",function(req,res){
 
   let idpelicula = req.body.idpelicula;
  
@@ -147,4 +147,15 @@ app.post("/repartoPelicula",function(req,res){
     console.log("Done");
   });
 
+});
+
+app.get("/listadoPeliculas",function(req,res){
+  conn.query("SELECT IDPELICULA, NOMBRE FROM PELICUA ",
+  function (err, results, fields) {
+    if (err) throw err;
+    else console.log('Selected ' + results.length + ' row(s).');
+
+    res.send(results)
+    console.log('Done.');
+  });
 });
