@@ -4,8 +4,6 @@ import bodyParser from 'body-parser';
 import cors from "cors";
 import AWS from 'aws-sdk';
 import { aws_keys } from './helpers/aws_keys.js';
-import bcrypt from 'bcrypt';
-import md5 from 'md5';
 
 const app = express();
 var corsOptions = { origin: true, optionsSuccessStatus: 200 };
@@ -29,15 +27,14 @@ app.get('/mostrarUsuarios',function(req,res){
             console.log('Done.');
         })
 });
-
+  
 app.get("/login/(:usuario)/(:password)", function (req, res) {
       let usuario = req.params.usuario;
-      //let password = md5(req.params.password);
       let password = req.params.password;
   
       console.log(usuario);
       console.log(password);
-
+  
       /* Códigos de respuesta:
        * 0: no existe usuario
        * 1: login correcto
@@ -48,14 +45,12 @@ app.get("/login/(:usuario)/(:password)", function (req, res) {
       conn.query("SELECT * FROM usuario where usuario = ? ",[usuario], function (err, results, fields) {
           if (err) throw err;
           else {
-            console.log("1 Selected " + results.length + " row(s).");   
+            console.log("Selected " + results.length + " row(s).");   
             if(results.length === 0){
               console.log('No existe el usuario');
               return res.send({ resultadoLogin: 0 });
             }
             else if(results.length === 1){
-              password = md5(password);
-              console.log('password: '+ password)
               if(results[0].password == password) {
                 console.log('login exitoso');
                 return res.send({ resultadoLogin: 1 });
@@ -72,7 +67,8 @@ app.get("/login/(:usuario)/(:password)", function (req, res) {
             //res.send((results));
             //console.log(results);
           }
-        });     
+        });
+      
     });
 
 // -----------------------------------------------REGISTRO-----------------------------------------------------------------------
@@ -101,11 +97,8 @@ app.post("/registro", function (req, res) {
     let nombre = req.body.nombre;
     let apellido = req.body.apellido;
     let email = req.body.email;    
-    let password = md5(req.body.password);
+    let password = req.body.password;
     //let rol = req.body.rol;
-    
-
-    // let pass = bcrypt.hashSync(password,5);
 
     conn.query(
         "insert into usuario(usuario, nombre, apellido, email, password, rol) VALUES (?,?,?,?,?,?);",
