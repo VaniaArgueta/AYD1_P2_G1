@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import '../Catalogo.css';
 import Pagination from './Pagination';
 import MovieCard from './MovieCard';
+import { InfoPeliculas } from './InfoPeliculas';
+import Modal from 'react-modal';
 
 class CatalogoPeliculas extends Component {
   state = { allMovies: [], currentMovies: [], currentPage: null, totalPages: null }
@@ -18,6 +20,17 @@ class CatalogoPeliculas extends Component {
     const currentMovies = allMovies.slice(offset, offset + pageLimit);
 
     this.setState({ currentPage, currentMovies, totalPages });
+  }
+
+  modal(movie) {
+    console.log("intento...")
+    return (
+      <>
+        <Modal>
+          <InfoPeliculas idPelicula={movie.idPelicula} />;
+        </Modal>
+      </>
+    )
   }
 
   render() {
@@ -47,7 +60,9 @@ class CatalogoPeliculas extends Component {
             </div>
           </div>
           <div className='rowBo'>
-            {currentMovies.map(movie => <MovieCard key={movie.idPelicula} movie={movie} />)}
+            {currentMovies.map(movie => <div key={movie.idPelicula} onClick={() => this.modal(movie)}>
+              <MovieCard key={movie.idPelicula} movie={movie} />
+            </div>)}
           </div>
         </div>
       </div>

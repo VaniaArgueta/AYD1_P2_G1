@@ -200,6 +200,14 @@ app.post("/insertActores", async function (req, res) {
     );                          
 });
 
+app.get("/obtenerPeliculas", function (req, res) { // Consulta información usuario  
+  conn.query("select p.*, CASE WHEN a.nombre is NULL THEN 'unknown' ELSE a.nombre END as nombre_actor from pelicula p left join pelicula_actor pa on p.idPelicula = pa.idPelicula left join actor a on pa.idActor = a.idActor",[], function (err, results, fields) {
+      if (err) throw err;
+      else console.log("Selected " + results.length + " row(s).");    
+      res.send(({data: results}));
+    });    
+});
+
 // -----------------------------------------------END INSERT ACTORES-----------------------------------------------------------------------//
 
 app.listen(4000);

@@ -35,7 +35,7 @@ export const InfoPeliculas = (prop) => {
     <div>
       <p className="datosPrincipales">INFO PELÍCULAS</p>
       <div>
-      <label for="infpelis" >Catalogo de peliculas</label>
+      <label htmlFor="infpelis" >Catalogo de peliculas</label>
         {
           datosAPI.map((item,index) =>{
             return(
