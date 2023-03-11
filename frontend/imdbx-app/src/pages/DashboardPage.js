@@ -12,7 +12,7 @@ export const DashboardPage = (props) => {
   const { user } = useParams();
   console.log(user); 
 
-  const [tipo, setTipo] = useState(0);
+  const [tipo, setTipo] = useState(3);
   
   const url = 'http://localhost:4000/consultarUsuario/'+user;
   fetch(url)
@@ -34,7 +34,7 @@ export const DashboardPage = (props) => {
           
             <div className="container">
                 <div className="uno centrado">
-                <img src="https://photobucketsemi1g11.s3.us-east-2.amazonaws.com/862galaxia00.jpg" alt="ProfilePic" className='img-thumbnail img-fluid rounded'  style={{ width: "300px", height: "300px", padding: "2px" }}/>
+                <img src="https://static8.depositphotos.com/1378583/987/v/950/depositphotos_9878369-stock-illustration-camera-and-film-logo.jpg" alt="ProfilePic" className='img-thumbnail img-fluid rounded'  style={{ width: "300px", height: "300px", padding: "2px" }}/>
                     <br/><div><br/></div>
                     
                     <div className='centrado datosPrincipales' >
