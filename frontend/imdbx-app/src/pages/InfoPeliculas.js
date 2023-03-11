@@ -4,9 +4,9 @@ import axios from "axios";
 
 export const InfoPeliculas = (prop) => {
   
-  const url = "http://localhost:3000/infopeliculas";
-  const listPelis = "http://localhost:3000/listadoPeliculas";
-  const elenco ="http://localhost:3000/repartopelicula"
+  const url = "http://localhost:4000/infopeliculas";
+  const listPelis = "http://localhost:4000/listadoPeliculas";
+  const elenco ="http://localhost:4000/repartopelicula"
 
   const [datosAPI,setDatosAPI] = useState([]);
 
@@ -25,12 +25,12 @@ export const InfoPeliculas = (prop) => {
     });
 
   }
-  /*function charge(item) {
+  function chargeInfoPelis(item) {
     console.log(item);
     axios.get(url,prop.idpelicula).then((response) => {
       setDatosAPI(response.data);      
     });
-  }*/
+  }
   return (
     <div>
       <p className="datosPrincipales">INFO PELÍCULAS</p>
@@ -45,6 +45,35 @@ export const InfoPeliculas = (prop) => {
             )
           })
         }
+      </div>
+      <div >
+          {
+            datosAPI.map((item,index)=>{
+              return(
+                <div key={index} onClick={() => (chargeInfoPelis(item))}>
+              
+                <table >
+                    <tr >
+                      <td><p>Titulo:</p></td>
+                      <td>{item.nombre}</td>
+                    </tr>
+                    <tr>
+                      <td><p>A&ntilde;o de estreno:</p></td>
+                      <td><p>{item.año}</p></td>
+                    </tr>
+                    <tr>
+                      <td><p><input type="image" src={item.ilustracion}></input></p></td>
+                    </tr>
+                    <tr>
+                      <td><p>Resume:</p></td>
+                      <td><p>{item.resumen}</p></td>
+                    </tr>
+                </table>
+
+              </div>
+              )
+            })
+          }
       </div>
       
     </div>
