@@ -21,7 +21,7 @@ export const ModuloAcciones = (props) => {
   } else if (props.tipo === 2) { // Ver información de la película al seleccionar (usuario)
     return <InfoPeliculas />;
   } else if (props.tipo === 3) {
-    return <>3</>;
+    return <></>;
   } else if (props.tipo == 4) {
     return <>4</>;
   } else return <>else</>;
