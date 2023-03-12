@@ -3,8 +3,10 @@ import conn from "./conexion.js";
 import bodyParser from 'body-parser';
 import cors from "cors";
 import AWS from 'aws-sdk';
-import { aws_keys } from './helpers/aws_keys.js';
+import dotenv from 'dotenv';
 import md5 from 'md5';
+
+dotenv.config();
 
 const app = express();
 var corsOptions = { origin: true, optionsSuccessStatus: 200 };
@@ -156,7 +158,6 @@ app.post("/AddNewMovie", async function (req, res) {
 // -----------------------------------------------END ADD NEW MOVIE-----------------------------------------------------------------------//
 
 // -----------------------------------------------START S3 SAVE IMAGE-----------------------------------------------------------------------
-
 const saveImagePerfil = async (id, base64) =>{
   var id = id
   var foto = base64
@@ -164,7 +165,11 @@ const saveImagePerfil = async (id, base64) =>{
   var cadena = 'FotosPeliculas/' + id // fotos -> se llama la carpeta UBICACION
   //se convierte la base64 a bytes
   let buff = new Buffer.from(foto, 'base64')
-  var s3 = new AWS.S3(aws_keys.s3) // se crea una variable que pueda tener acceso a las caracteristicas de S3
+  var s3 = new AWS.S3({
+    region: process.env.REGION,
+    accessKeyId: process.env.ACCESSKEYID,
+    secretAccessKey: process.env.SECRETACCESSKEY,
+  }) // se crea una variable que pueda tener acceso a las caracteristicas de S3
   const params = {
     Bucket: 'imagesayd', // nombre
     Key: cadena, // Nombre de ubicacion
