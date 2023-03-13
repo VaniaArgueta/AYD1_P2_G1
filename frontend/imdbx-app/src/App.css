@@ -75,7 +75,7 @@
   border-radius: 5px;
   padding: 8px;
   text-align: center;
-  min-height: 1000px;
+  min-height: 600px;
 }
 
 .dos {
@@ -84,13 +84,14 @@
   border: 3px solid #ffcc80;
   border-radius: 5px;
   padding: 30px;
-  min-height: 1000px;
+  min-height: 600px;
 }
 
 .datosPrincipales{
   font-size: large;
   color:rgb(255, 255, 255);
   font-weight: bolder;
+  align-items: center;
 }
 
 .subTitulo {color: white;}
