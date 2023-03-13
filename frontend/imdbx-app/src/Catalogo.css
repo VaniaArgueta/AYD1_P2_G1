@@ -42,6 +42,7 @@
   padding-left: 5%;
   grid-gap: 20px;
   height: 600px;
+  align-content: flex-start;
 }
 
 .current-page {

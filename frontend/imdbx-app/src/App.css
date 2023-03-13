@@ -91,6 +91,7 @@
   font-size: large;
   color:rgb(255, 255, 255);
   font-weight: bolder;
+  align-items: center;
 }
 
 .subTitulo {color: white;}
