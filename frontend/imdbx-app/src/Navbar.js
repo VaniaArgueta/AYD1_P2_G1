@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import logo from './logo.svg';
 
 import { Link, Outlet, useLocation, useNavigate, } from 'react-router-dom';
@@ -19,13 +19,11 @@ export const Navbar = () => {
 
 	return (
 		<>
-			<header style={{height: '90px'}}>
-				<Link className="navbar navbar-expand-lg" style={{ background: "#06263b" }} to="/">
-					<div className='banner'>
-						<img src={logo} className="App-logo" alt="logo" style={{ height: "10vmin" }} />
-						<h1 className='titulo'>IMDbX</h1>
-					</div>
-				</Link>
+			<header style={{ height: '90px' }}>
+				<div className='banner'>
+					<img src={logo} className="App-logo" alt="logo" style={{ height: "10vmin" }} />
+					<h1 className='titulo'>IMDbX</h1>
+				</div>
 
 				{state?.logged ? (
 					<div className='user'>

@@ -67,7 +67,7 @@ const sendData = () => {
       namefoto: userData.image[0].name
     })  
     .then((response) => {
-        if (response.data.insertarPeli == true){
+        if (response.data.insertarPeli === true){
             alert("Pelicula Agregada con Exito");
             resetUserData()
             setImgUrl("");
@@ -97,7 +97,7 @@ const sendData = () => {
                         <Grid.Column width={9}>
                             <Grid.Row>
                                 <Form.Input required
-                                    size="normal"
+                                    size="large"
                                     type='text'
                                     name='name'
                                     label="Nombre"
@@ -109,7 +109,7 @@ const sendData = () => {
                             </Grid.Row>
                             <Grid.Row>
                                 <Form.Input required
-                                    size="normal"
+                                    size="large"
                                     type='text'
                                     name='director'
                                     label="Director"
@@ -121,7 +121,7 @@ const sendData = () => {
                             </Grid.Row>
                             <Grid.Row>
                                 <Form.Input required
-                                    size="normal"
+                                    size="large"
                                     type='text'
                                     name='year'
                                     label="Año de estreno"
@@ -133,7 +133,7 @@ const sendData = () => {
                             </Grid.Row>
                             <Grid.Row>
                                 <Form.Input required
-                                    size="normal"
+                                    size="large"
                                     type='text'
                                     name='resumen'
                                     label="Resumen"
@@ -145,7 +145,7 @@ const sendData = () => {
                             </Grid.Row>
                             <Grid.Row>
                                 <Form.Input required
-                                    size="normal"
+                                    size="large"
                                     type='text'
                                     name='reparto'
                                     label="Reparto"
