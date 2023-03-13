@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { AgregarPeliculas } from './AgregarPeliculas';
 import axios from 'axios';
 import CatalogoPeliculas from './CatalogoPeliculas';
-import InfoPeliculas from './InfoPeliculas';
 import { HomePage } from './HomePage';
 
 export const ModuloAcciones = (props) => {

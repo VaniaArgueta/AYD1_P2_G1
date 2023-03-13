@@ -41,7 +41,8 @@ class CatalogoPeliculas extends Component {
       const { data: datosRepartoAPI = [] } = response.data || [];
       const showModal = true;
       const idMovie = movie.idPelicula;
-      this.setState({ showModal, idMovie, datosRepartoAPI });
+      const filter = '';
+      this.setState({ showModal, idMovie, datosRepartoAPI,filter });
     });
   }
 

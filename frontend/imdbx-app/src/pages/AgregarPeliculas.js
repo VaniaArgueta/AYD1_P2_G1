@@ -67,7 +67,7 @@ const sendData = () => {
       namefoto: userData.image[0].name
     })  
     .then((response) => {
-        if (response.data.insertarPeli == true){
+        if (response.data.insertarPeli === true){
             alert("Pelicula Agregada con Exito");
             resetUserData()
             setImgUrl("");

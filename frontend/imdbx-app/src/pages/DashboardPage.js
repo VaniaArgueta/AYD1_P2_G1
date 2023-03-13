@@ -12,9 +12,7 @@ export const DashboardPage = (props) => {
   const { user } = useParams();
   const [tipo, setTipo] = useState(3);
 
-  const [tipo, setTipo] = useState(3);
-  
-  const url = 'http://localhost:4000/consultarUsuario/'+user;
+  const url = 'http://localhost:4000/consultarUsuario/' + user;
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
@@ -37,10 +35,12 @@ export const DashboardPage = (props) => {
           <div className='centrado datosPrincipales' >
             <p>Usuario: {user}</p>
             <p>Nombre Completo: {nombreCompleto}</p>
+            {rol === 0 ? (<p>Rol: Administrador</p>) : (<p>Rol: Usuario</p>)}
           </div>
 
           <div className="btn-group" role="group" aria-label="Basic outlined example">
             {
+              rol === 0 ?
                 (
                   <button type="button" className="btn btn-outline-light btn-lg" onClick={() => setTipo(0)}>Agregar Películas</button>
                 )
