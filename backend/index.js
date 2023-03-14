@@ -75,46 +75,8 @@ app.get("/login/(:usuario)/(:password)", function (req, res) {
           }
         });
       
-    });
-
-  console.log(usuario);
-  console.log(password);
-
-  /* Códigos de respuesta:
-   * 0: no existe usuario
-   * 1: login correcto
-   * -1: error inesperado o datos incorrectos
-   * -2: contraseña incorrecta
-   */
-  //console.log('prueba '+md5(passwordRequest));
-  conn.query("SELECT * FROM usuario where usuario = ? ", [usuario], function (err, results, fields) {
-    if (err) throw err;
-    else {
-      console.log("Selected " + results.length + " row(s).");
-      if (results.length === 0) {
-        console.log('No existe el usuario');
-        return res.send({ resultadoLogin: 0 });
-      }
-      else if (results.length === 1) {
-        if (results[0].password == password) {
-          console.log('login exitoso');
-          return res.send({ resultadoLogin: 1 });
-        }
-        else {
-          console.log('contraseña incorrecta');
-          return res.send({ resultadoLogin: -2 }); // -2 código de contraseña incorrecta           
-        }
-
-      } else {
-        console.log('error inesperado o datos incorrectos');
-        return res.send({ resultadoLogin: -1 });
-      }
-      //res.send((results));
-      //console.log(results);
-    }
-  });
-
 });
+
 
 // -----------------------------------------------REGISTRO-----------------------------------------------------------------------
 
