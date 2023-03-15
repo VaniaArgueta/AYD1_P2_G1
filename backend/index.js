@@ -258,3 +258,20 @@ app.get("/listadoPeliculas", function (req, res) {
       console.log('Done.');
     });
 });
+
+
+
+// ----------------------------WATCHLIST------------------------------------
+app.get("/obtenerWatchlist/", (req,res) =>{
+  let {idusuario} = req.query
+  console.log(idusuario) 
+  conn.query(
+    "select p.*, CASE WHEN (SELECT GROUP_CONCAT(nombre separator ', ') from actor a where a.idActor in (select idActor from pelicula_actor where idPelicula = p.idPelicula)) is NULL THEN 'unknown' ELSE (SELECT GROUP_CONCAT(nombre separator ', ') from actor a where a.idActor in (select idActor from pelicula_actor where idPelicula = p.idPelicula)) END as nombre_actor from pelicula p, usuario u, watchlist w WHERE p.idPelicula = w.idPelicula AND u.idUsuario = w.idUsuario AND w.idUsuario = ?"
+    ,[idusuario],
+    function (err, results, fields) {
+      if (err) throw err;
+      else console.log("Selected " + results.length + " row(s).");
+      res.send(({ data: results })); 
+    })
+})
+

@@ -27,7 +27,7 @@ export const DashboardPage = (props) => {
   return (
     <>
 
-      <div className="container">
+      <div className="container"> 
         <div className="uno centrado">
           <img src="https://photobucketsemi1g11.s3.us-east-2.amazonaws.com/862galaxia00.jpg" alt="ProfilePic" className='img-thumbnail img-fluid rounded' style={{ width: "300px", height: "300px", padding: "2px" }} />
           <br /><div><br /></div>
@@ -48,6 +48,7 @@ export const DashboardPage = (props) => {
                 (
                   <>
                     <button type="button" className="btn btn-outline-light btn-lg" onClick={() => setTipo(1)}>Catálogo de Películas</button>
+                    <button type="button" className="btn btn-outline-light btn-lg" onClick={() => setTipo(4)}>Watchlist</button>
                   </>
                 )
             }
