@@ -44,6 +44,20 @@ class CatalogoPeliculas extends Component {
       const filter = '';
       this.setState({ showModal, idMovie, datosRepartoAPI,filter });
     });
+
+    axios.get(`http://localhost:4000/verificarPeliculaWatchlist/`,{params:{idusuario:this.props.idusuario,idpelicula:movie.idPelicula}})
+      .then(res =>{
+        //console.log(res.data.data[0]) 
+        let textBtnWatchlist = ""
+        const existeWatchlist = res.data.data[0].existe
+        if(existeWatchlist === 1){
+          textBtnWatchlist = "Quitar de watchlist"
+        }else{
+          textBtnWatchlist = "Agregar a watchlist"
+        }
+        this.setState({existeWatchlist,textBtnWatchlist})
+      })
+      .catch((err) => console.log(err));
   }
 
   onClose() {
@@ -56,6 +70,18 @@ class CatalogoPeliculas extends Component {
   handleChange(e) {
     const filter = e.target.value;
     this.setState({ filter });
+  }
+
+  modificarWatchlist = () =>{
+    console.log(this.state.existeWatchlist)
+    axios.post("http://localhost:4000/modificarWatchlist", {
+      idpelicula: this.state.idMovie,
+      idusuario: this.props.idusuario,
+      tipoOperacion: !this.state.existeWatchlist
+    }).then((res) => {
+      this.setState({existeWatchlist:!this.state.existeWatchlist})
+      alert(res.data)
+    });
   }
 
   render() {
@@ -73,6 +99,7 @@ class CatalogoPeliculas extends Component {
               (
                 <div>
                   <Button variant="contained" className="btn btn-outline-light btn-lg" startIcon={<ArrowBackIcon />} onClick={() => this.onClose()}>Regresar</Button>
+                  <Button variant="contained" className="btn btn-outline-light btn-lg"style={{"float":"right"}} onClick={()=>this.modificarWatchlist()}>{this.state.textBtnWatchlist}</Button>
                   <InfoPeliculas datosAPI={this.state.datosAPI} datosRepartoAPI={this.state.datosRepartoAPI} />
                 </div>
               ) :

@@ -36,11 +36,11 @@ export const ModuloAcciones = (props) => {
   if (props.tipo === 0) {       // Agregar películas (admin)
     return <AgregarPeliculas />;
   } else if (props.tipo === 1) { // Ver catálogo de películas (usuario)    
-    return <CatalogoPeliculas  movies={movies} key={props.tipo}/>;
+    return <CatalogoPeliculas  movies={movies} idusuario={props.idUsuario} key={props.tipo}/>;
   } else if (props.tipo === 3) {
     return <HomePage />;
   } else if (props.tipo === 4) {   
-    return <CatalogoPeliculas movies={watchlist} key={props.tipo}/>;
+    return <CatalogoPeliculas movies={watchlist} idusuario={props.idUsuario} key={props.tipo}/>;
   } else return <>else</>;
 
 }

@@ -264,7 +264,6 @@ app.get("/listadoPeliculas", function (req, res) {
 // ----------------------------WATCHLIST------------------------------------
 app.get("/obtenerWatchlist/", (req,res) =>{
   let {idusuario} = req.query
-  console.log(idusuario) 
   conn.query(
     "select p.*, CASE WHEN (SELECT GROUP_CONCAT(nombre separator ', ') from actor a where a.idActor in (select idActor from pelicula_actor where idPelicula = p.idPelicula)) is NULL THEN 'unknown' ELSE (SELECT GROUP_CONCAT(nombre separator ', ') from actor a where a.idActor in (select idActor from pelicula_actor where idPelicula = p.idPelicula)) END as nombre_actor from pelicula p, usuario u, watchlist w WHERE p.idPelicula = w.idPelicula AND u.idUsuario = w.idUsuario AND w.idUsuario = ?"
     ,[idusuario],
@@ -275,3 +274,45 @@ app.get("/obtenerWatchlist/", (req,res) =>{
     })
 })
 
+app.post("/modificarWatchlist", (req,res)=>{
+  let tipoOperacion = req.body.tipoOperacion // 1 = Agregar a watchlist - 0 = Quitar de watchlist
+  let idusuario = req.body.idusuario
+  let idpelicula = req.body.idpelicula
+  if (tipoOperacion == "1"){
+    conn.query(
+      "INSERT INTO watchlist (idUsuario, idPelicula) VALUES (?,?) ON DUPLICATE KEY UPDATE idPelicula = ?",
+      [idusuario,idpelicula,idpelicula],
+      function(err,results,fields){
+        if (err) throw err;
+        else console.log("Inserted " + results.affectedRows + " row(s).");
+        return res.send("Pelicula agregada a wathclist")
+      }
+    )
+  }else{
+    conn.query(
+      "DELETE FROM watchlist WHERE idusuario = ? AND idpelicula = ?",
+      [idusuario,idpelicula],
+      function(err,results,fields){
+        if (err) throw err;
+        else console.log("Deleted " + results.affectedRows + " row(s).");
+        return res.send("Pelicula eliminada de wathclist")
+      }
+    )
+  }
+})
+
+app.get("/verificarPeliculaWatchlist/", (req,res) =>{
+  let {idusuario, idpelicula} = req.query
+  console.log(idusuario)
+  console.log(idpelicula)
+  conn.query(
+    "SELECT EXISTS (SELECT * FROM watchlist WHERE idUsuario = ? AND idPelicula = ?) as existe",
+    [idusuario,idpelicula],
+    function(err,results,fields){
+      if (err) throw err;
+      else console.log("Selected " + results.length + " row(s).");
+      console.log(results)
+      res.send(({ data: results })); 
+    }
+  )
+})
