@@ -316,3 +316,47 @@ app.get("/verificarPeliculaWatchlist/", (req,res) =>{
     }
   )
 })
+
+/****Grabar Comentar y Calificar******* */
+
+
+app.post("/AddComentario", function (req, res) {
+  let idpelicula = req.body.idpelicula;
+  let idusuario = req.body.idusuario;
+  let comentario = req.body.comentario;
+  conn.query("INSERT INTO comentario (idUsuario,idPelicula,comentario) values(?,?,?)",
+    [idusuario,idpelicula,comentario],
+    function (err, results, fields) {
+      if (err) throw err;
+      else console.log("selected " + results.length + " row(s).");
+      res.send("Comentario Grabado."+({ data: results }));
+    });
+});
+
+
+
+app.post("/AddPuntuacion", function (req, res) {
+  let idpelicula = req.body.idpelicula;
+  let idusuario = req.body.idusuario;
+  let puntuacion = req.body.puntuacion;
+  conn.query("INSERT INTO puntuacion (idUsuario,idPelicula,puntuacion) values(?,?,?)",
+    [idusuario,idpelicula,comentario],
+    function (err, results, fields) {
+      if (err) throw err;
+      else console.log("selected " + results.length + " row(s).");
+      res.send("Puntuacion Grabada"+({ data: results }));
+    });
+});
+
+
+app.get("/GetComentarioPuntuacion",function(req,res){
+  let idpelicula = req.body.idpelicula;
+  conn.query("SELECT p.idpelicula, p.nombre,u.idusuario,u.nombre+''+u.apellido as usuario,c.comentario,pu.puntuacion  FROM ayd1_p2.pelicula p   INNER JOIN ayd1_p2.usuario u ON u.idusuario = p.idusuario  INNER JOIN ayd1_p2.comentario c ON c.idpelicula = p.idpelicula  INNER JOIN ayd1_p2.puntuacion pu ON pu.idpelicula = p.idpelicula  WHERE idPelicula = ?;",
+  [idpelicula],
+  function(err,results,fields){
+    if (err) throw err;
+      else console.log("Selected " + results.length + " row(s).");
+      console.log(results)
+      res.send(({ data: results })); 
+  });
+});

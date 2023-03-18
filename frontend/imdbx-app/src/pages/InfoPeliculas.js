@@ -1,8 +1,24 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
+import { useRouteLoaderData } from 'react-router-dom';
 import '../InfoPelicula.css';
-class InfoPeliculas extends Component {
+import axios from "axios";
 
-  state = { datosAPI: [], datosRepartoAPI: [] }
+class InfoPeliculas extends Component {
+  urlSetComment = "http://localhost:4000/AddComentario"
+  urlSetPuntuacion ="http://localhost:4000/AddPuntuacion"
+  urlGetData = "http://localhost:4000/GetComentarioPuntuacion"
+  /*[useRouteLoaderData,setUserData] = useState({
+    idPelicula:"",
+
+  })*/
+/*
+  [userData,setUserData]=useState({
+    idPelicula: "",
+    idUsuario: "",
+    comentario:"",
+    puntuacion:""
+  })   */
+  state = { datosAPI: [], datosRepartoAPI: [], datosComentariosPuntAPI:[]}
 
   componentDidMount() {
     const datosAPI = this.props.datosAPI || [];
@@ -10,16 +26,67 @@ class InfoPeliculas extends Component {
 
     const datosRepartoAPI = this.props.datosRepartoAPI || [];
     this.setState({ datosRepartoAPI });
+
+    const datosComentariosPuntAPI = this.props.datosComentariosPuntAPI||[];
+    this.setState({datosComentariosPuntAPI});
   };
 
   showModal(actor) {
     //aqui cargar la informacion del actor para mandarlo a otro componente
+    
     console.log(actor)
   }
+
+  
+  sendData(){
+    this.insertComentario();
+    this.insertPuntuacion();
+  }
+
+  insertComentario = ()=>{
+      
+      axios.post(this.urlSetComment,{
+        idPelicula: this.props.idPelicula,
+        idUsuario: this.props.idUsuario,
+        comentario: this.props.comentario
+      }).then((res)=>{
+        alert(res.data)
+      })
+  }
+
+
+  insertPuntuacion = ()=>{
+    
+    axios.post(this.urlSetComment,{
+      idPelicula: this.props.idPelicula,
+      idUsuario: this.props.idUsuario,
+      comentario: this.props.puntuacion
+    }).then((res)=>{
+      alert(res.data)
+    })
+
+    
+  }
+
+  showModal(comentpunt){
+
+      this.chargeComentPuntuMovie(comentpunt);
+  }
+
+  chargeComentPuntuMovie(comentpunt){
+    axios.post(this.urlGetData, {
+      idpelicula: comentpunt.idpelicula//this.props.idPelicula
+    }).then((response) => {
+      const { data: datosAPI = [] } = response.data || [];
+      this.setState({ datosAPI });
+    })
+  }
   render() {
-    const { datosAPI, datosRepartoAPI } = this.state;
+    const { datosAPI, datosRepartoAPI,datosComentariosPuntAPI } = this.state;
+    
     console.log(datosAPI)
     console.log(datosRepartoAPI)
+    console.log(datosComentariosPuntAPI)
     return (
       <div>
         <p className="info-lb-label">INFORMACIÓN</p>
@@ -45,6 +112,34 @@ class InfoPeliculas extends Component {
               <label className='info-lb-label'>Resumen: </label>
               <span className="info-value d-block">[ {movie.resumen} ]</span>
             </div>
+            
+          </div>
+          <div className="col-md-7"> 
+          
+              <label className='info-lb-label'>Nuevo Comentario:</label>
+              <textarea id ="comentario" ></textarea>
+              <label className='info-lb-label'>Puntuacion:</label>
+              <select id="idpuntuacion">
+                <option value="1">Muy Mala</option>
+                <option value="2">Mala</option>
+                <option value="3">Regular</option>
+                <option value="4">Buena</option>
+                <option value="5">Excelente</option>
+              </select>
+              <div className="Register-Form-Button datosPrincipales">
+                 <button className="ui black button" type="submit" >Guardar Comentario</button>
+              </div>
+              
+          </div>
+          <div>
+
+              <ul>
+                {
+                  //datosComentariosPuntAPI.map(())
+                }
+              </ul>
+
+            
           </div>
         </div>)
         }
