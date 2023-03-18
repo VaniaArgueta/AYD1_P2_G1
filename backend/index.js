@@ -140,7 +140,7 @@ app.post("/AddNewMovie", async function (req, res) {
 
   const url = await saveImagePerfil(nameImage, imagen)
   console.log(url.Location)
-
+  console.log(resumen)
   conn.query(
     "insert into pelicula(nombre, director, año, resumen, ilustracion) VALUES (?,?,?,?,?);",
     [nombre, director, año, resumen, url.Location],
@@ -154,9 +154,40 @@ app.post("/AddNewMovie", async function (req, res) {
       }
     }
   );
+  let array = reparto.split(",");
+  let idPeli
+  conn.query("SELECT idPelicula FROM pelicula WHERE nombre = ? ", [nombre], function (err, results, fields) {
+    if (err) throw err;
+    else console.log(results);
+    idPeli = results[0].idPelicula;
+  });
+  for (var i = 0; i < array.length; i++) {
+    let idActor = 0
+    conn.query("SELECT idActor FROM actor WHERE nombre = ? ", [array[i]], function (err, results, fields) {
+      if (err) throw err;
+      else console.log(results);
+      idActor = results[0].idActor
+    });
+    conn.query(
+      "insert into pelicula_actor(idPelicula, idActor) VALUES (?,?);",
+      [idPeli, idActor]);
+  }
 });
 
 // -----------------------------------------------END ADD NEW MOVIE-----------------------------------------------------------------------//
+
+// ----------------------------------------------START OBTENER ACTORES ------------------------------------------------------------------//
+
+app.get("/Obtener", function (req, res) {
+  conn.query("SELECT idActor, nombre FROM actor", function (err, results, fields) {
+    if (err) throw err;
+    else console.log("Selected " + results.length + " row(s).");
+    res.send(results);
+  });
+
+});
+
+// -----------------------------------------------END OBTENER ACTORES-----------------------------------------------------------------------//
 
 // -----------------------------------------------START S3 SAVE IMAGE-----------------------------------------------------------------------
 const saveImagePerfil = async (id, base64) =>{
@@ -164,6 +195,32 @@ const saveImagePerfil = async (id, base64) =>{
   var foto = base64
   //carpeta y nombre que quieran darle a la imagen
   var cadena = 'FotosPeliculas/' + id // fotos -> se llama la carpeta UBICACION
+  //se convierte la base64 a bytes
+  let buff = new Buffer.from(foto, 'base64')
+  var s3 = new AWS.S3({
+    region: process.env.REGION,
+    accessKeyId: process.env.ACCESSKEYID,
+    secretAccessKey: process.env.SECRETACCESSKEY,
+  }) // se crea una variable que pueda tener acceso a las caracteristicas de S3
+  const params = {
+    Bucket: 'imagesayd', // nombre
+    Key: cadena, // Nombre de ubicacion
+    Body: buff, // Imagen enn bytes
+    ContentType: 'image', // tipo de contenido
+  }
+  const response = await s3.upload(params).promise()
+  return response
+}
+
+// -----------------------------------------------END S3 SAVE IMAGE-----------------------------------------------------------------------//
+
+
+// -----------------------------------------------START S3 SAVE IMAGE-----------------------------------------------------------------------
+const saveImageActor = async (id, base64) =>{
+  var id = id
+  var foto = base64
+  //carpeta y nombre que quieran darle a la imagen
+  var cadena = 'FotosActores/' + id // fotos -> se llama la carpeta UBICACION
   //se convierte la base64 a bytes
   let buff = new Buffer.from(foto, 'base64')
   var s3 = new AWS.S3({
@@ -193,7 +250,7 @@ app.post("/insertActores", async function (req, res) {
   let fechaNacimiento = req.body.fechaNacimiento;
 
 
-  const url = await saveImagePerfil(nameImage, imagen)
+  const url = await saveImageActor(nameImage, imagen)
 
   conn.query(
     "insert into actor(nombre, foto, fecha_nacimiento) VALUES (?,?,?);",
