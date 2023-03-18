@@ -136,11 +136,8 @@ app.post("/AddNewMovie", async function (req, res) {
   let reparto = req.body.reparto;
   let imagen = req.body.base64;
   let nameImage = req.body.namefoto;
-  console.log(req.body)
 
   const url = await saveImagePerfil(nameImage, imagen)
-  console.log(url.Location)
-  console.log(resumen)
   conn.query(
     "insert into pelicula(nombre, director, año, resumen, ilustracion) VALUES (?,?,?,?,?);",
     [nombre, director, año, resumen, url.Location],
@@ -150,28 +147,37 @@ app.post("/AddNewMovie", async function (req, res) {
         return res.send({ insertarPeli: false });
       } else {
         console.log("Inserted " + results.affectedRows + " row(s).");
+        let idPelis = results.insertId; // Obtiene el ID de la película creada
+        let array = reparto.split(",");
+        for (let i = 0; i < array.length; i++) {
+          conn.query("SELECT idActor FROM actor WHERE nombre = ? ", [array[i]], function (err, results, fields) {
+            if (err) {
+              console.log(err);
+              return res.send({ insertarPeli: false });
+            }
+            if (results.length === 0) { // Maneja el caso en que el actor no existe
+              console.log(`El actor ${array[i]} no existe en la base de datos`);
+              return res.send({ insertarPeli: false });
+            }
+            let idActors = results[0].idActor;
+            conn.query(
+              "insert into pelicula_actor(idPelicula, idActor) VALUES (?,?);",
+              [idPelis, idActors],
+              function (err, results, fields) {
+                if (err) {
+                  console.log(err);
+                  return res.send({ insertarPeli: false });
+                } else {
+                  console.log("Inserted " + results.affectedRows + " row(s).");
+                }
+              }
+            );
+          });
+        }
         return res.send({ insertarPeli: true });
       }
     }
   );
-  let array = reparto.split(",");
-  let idPeli
-  conn.query("SELECT idPelicula FROM pelicula WHERE nombre = ? ", [nombre], function (err, results, fields) {
-    if (err) throw err;
-    else console.log(results);
-    idPeli = results[0].idPelicula;
-  });
-  for (var i = 0; i < array.length; i++) {
-    let idActor = 0
-    conn.query("SELECT idActor FROM actor WHERE nombre = ? ", [array[i]], function (err, results, fields) {
-      if (err) throw err;
-      else console.log(results);
-      idActor = results[0].idActor
-    });
-    conn.query(
-      "insert into pelicula_actor(idPelicula, idActor) VALUES (?,?);",
-      [idPeli, idActor]);
-  }
 });
 
 // -----------------------------------------------END ADD NEW MOVIE-----------------------------------------------------------------------//
