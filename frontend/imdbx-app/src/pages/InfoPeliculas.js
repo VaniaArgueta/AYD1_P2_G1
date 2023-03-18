@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState ,useEffect} from 'react'
 import { useRouteLoaderData } from 'react-router-dom';
 import '../InfoPelicula.css';
 import axios from "axios";
@@ -69,9 +69,10 @@ class InfoPeliculas extends Component {
   }
 
   // useEffect(()=>{
-  //   chargeComentPuntuMovie(comentpunt)
-  // })
-
+  //   chargeComentPuntuMovie(comentpunt);
+  //   console.log(comentpunt);
+  // },[])
+ 
   
   
 
@@ -84,11 +85,17 @@ class InfoPeliculas extends Component {
     })
   }
   render() {
+    
+    useEffect(()=>{
+    chargeComentPuntuMovie(comentpunt);
+    console.log(comentpunt);
+    },[])
     const { datosAPI, datosRepartoAPI,datosComentariosPuntAPI } = this.state;
     
     console.log(datosAPI)
     console.log(datosRepartoAPI)
     console.log(datosComentariosPuntAPI)
+
     return (
       <div>
         <p className="info-lb-label">INFORMACIÓN</p>
