@@ -39,16 +39,16 @@ class InfoPeliculas extends Component {
 
   
   sendData(){
-    this.insertComentario();
-    this.insertPuntuacion();
+    insertComentario();
+    insertPuntuacion();
   }
 
   insertComentario = ()=>{
       
       axios.post(this.urlSetComment,{
-        idPelicula: this.props.idPelicula,
-        idUsuario: this.props.idUsuario,
-        comentario: this.props.comentario
+        idPelicula: this.idPelicula,
+        idUsuario: this.idUsuario,
+        comentario: this.comentario
       }).then((res)=>{
         alert(res.data)
       })
@@ -58,9 +58,9 @@ class InfoPeliculas extends Component {
   insertPuntuacion = ()=>{
     
     axios.post(this.urlSetComment,{
-      idPelicula: this.props.idPelicula,
-      idUsuario: this.props.idUsuario,
-      comentario: this.props.puntuacion
+      idPelicula: this.idPelicula,
+      idUsuario: this.idUsuario,
+      comentario: this.puntuacion
     }).then((res)=>{
       alert(res.data)
     })
@@ -68,13 +68,15 @@ class InfoPeliculas extends Component {
     
   }
 
-  showModal(comentpunt){
+  // useEffect(()=>{
+  //   chargeComentPuntuMovie(comentpunt)
+  // })
 
-      this.chargeComentPuntuMovie(comentpunt);
-  }
+  
+  
 
   chargeComentPuntuMovie(comentpunt){
-    axios.post(this.urlGetData, {
+    axios.get(this.urlGetData, {
       idpelicula: comentpunt.idpelicula//this.props.idPelicula
     }).then((response) => {
       const { data: datosAPI = [] } = response.data || [];

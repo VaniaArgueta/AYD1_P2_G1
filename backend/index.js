@@ -340,7 +340,7 @@ app.post("/AddPuntuacion", function (req, res) {
   let idusuario = req.body.idusuario;
   let puntuacion = req.body.puntuacion;
   conn.query("INSERT INTO puntuacion (idUsuario,idPelicula,puntuacion) values(?,?,?)",
-    [idusuario,idpelicula,comentario],
+    [idusuario,idpelicula,puntuacion],
     function (err, results, fields) {
       if (err) throw err;
       else console.log("selected " + results.length + " row(s).");
