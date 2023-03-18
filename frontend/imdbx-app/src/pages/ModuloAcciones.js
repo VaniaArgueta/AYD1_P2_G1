@@ -3,6 +3,7 @@ import { AgregarPeliculas } from './AgregarPeliculas';
 import axios from 'axios';
 import CatalogoPeliculas from './CatalogoPeliculas';
 import { HomePage } from './HomePage';
+import InfoActor from './InfoActor';
 
 export const ModuloAcciones = (props) => {
 
@@ -41,6 +42,9 @@ export const ModuloAcciones = (props) => {
     return <HomePage />;
   } else if (props.tipo === 4) {   
     return <CatalogoPeliculas movies={watchlist} idusuario={props.idUsuario} key={props.tipo}/>;
+  }
+  else if (props.tipo === 5) {   
+    return  <InfoActor actor={props.actor} />;
   } else return <>else</>;
 
 }

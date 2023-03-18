@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import '../InfoPelicula.css';
+import InfoActor from './InfoActor';
+import { ModuloReparto } from './ModuloReparto';
+import { ModuloAcciones } from './ModuloAcciones';
+
 class InfoPeliculas extends Component {
 
-  state = { datosAPI: [], datosRepartoAPI: [] }
+  state = { datosAPI: [], datosRepartoAPI: [], showModal: false, actor:null }
 
   componentDidMount() {
     const datosAPI = this.props.datosAPI || [];
@@ -14,13 +18,16 @@ class InfoPeliculas extends Component {
 
   showModal(actor) {
     //aqui cargar la informacion del actor para mandarlo a otro componente
-    console.log(actor)
+    console.log(actor);
+    this.setState({actor:actor});
+    this.setState({ showModal: true });
   }
   render() {
-    const { datosAPI, datosRepartoAPI } = this.state;
+    const { datosAPI, datosRepartoAPI,showModal,actor } = this.state;
     console.log(datosAPI)
     console.log(datosRepartoAPI)
     return (
+      <>
       <div>
         <p className="info-lb-label">INFORMACIÓN</p>
         {datosAPI.map((movie) => <div className='containerI' key={movie.idPelicula}>
@@ -37,10 +44,10 @@ class InfoPeliculas extends Component {
               <span className="info-value d-block">{movie.director}</span>
               <label className='info-lb-label'>Actores: </label>
               <span className="info-value d-block">{
-                datosRepartoAPI.map((actor) =>
-                  <div className='div-actor' key={actor.idActor} onClick={(e) => this.showModal(actor)}>
-                    {actor.nombre}
-                  </div>
+                datosRepartoAPI.map((actor,key) =>
+                <div className='div-actor' key={actor.idActor} onClick={(e) => this.showModal(actor)}>
+                    {actor.nombre}                    
+                  </div>                                    
                 )}</span>
               <label className='info-lb-label'>Resumen: </label>
               <span className="info-value d-block">[ {movie.resumen} ]</span>
@@ -49,6 +56,8 @@ class InfoPeliculas extends Component {
         </div>)
         }
       </div>
+      {showModal === true ?(<ModuloReparto  tipo={0} actor={actor}  />):(<>false</>)}
+      </>
     )
   }
 }

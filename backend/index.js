@@ -373,3 +373,16 @@ app.get("/verificarPeliculaWatchlist/", (req,res) =>{
     }
   )
 })
+
+//------------------------------- INFORMACIÓN DE ACTOR---------------------------------
+app.get("/consultarPeliculasActor/(:idActor)", function (req, res) { 
+  let idActor = req.params.idActor;
+  let strQuery = `select peli.idPelicula, peli.nombre from pelicula peli 
+                  join pelicula_actor pa on peli.idPelicula = pa.idPelicula
+                  where pa.idActor = ? order by pa.idPelicula desc limit 5;`
+  conn.query(strQuery, [idActor], function (err, results, fields) {
+    if (err) throw err;
+    else console.log("Selected " + results.length + " row(s).");
+    res.send((results));
+  });
+});
